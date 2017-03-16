@@ -68,5 +68,11 @@ namespace XinZhiHua.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        public ActionResult HomeUpload(ModHomeUpload model)
+        {
+            return RedirectToAction("Index");
+        }
     }
 }
