@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
+    string navigation_bar = System.Configuration.ConfigurationManager.AppSettings["navigation_bar"] == null ? "" : System.Configuration.ConfigurationManager.AppSettings["navigation_bar"].ToString().ToLower();
+}
+@section add_css{
+    <link rel=stylesheet type=text/css href="@Url.Content("~/Content/Css/manager-common.css")" />
+    @RenderSection("add_css", required: false)
+}
+
+@section add_scripts{
+    @RenderSection("add_scripts", required: false)
+}
+
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @{
+                    foreach (string temp in navigation_bar.Split(','))
+                    {
+                        if (!string.IsNullOrEmpty(temp))
+                        {
+                            string[] data = temp.Split('_');
+                            string add_class = action_name == data[0] ? "active" : "";
+                            string name = string.IsNullOrEmpty(data[1]) ? "" : data[1];
+                            string url = "~/manager/" + data[0];
+                            <li class="@add_class"><a href="@Url.Content(url)">@name</a></li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@RenderBody()
