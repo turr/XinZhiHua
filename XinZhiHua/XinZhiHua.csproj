@@ -139,6 +139,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\db.db" />
     <Content Include="Content\Css\manager-index.css" />
     <Content Include="Content\Css\manager-logon.css" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap-theme.css" />
@@ -182,7 +183,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="App_Data\db.db" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap-theme.css.map" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap.css.map" />
