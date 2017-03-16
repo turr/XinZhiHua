@@ -64,15 +64,64 @@ namespace XinZhiHua.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            ViewBag.Title = "后台管理";
+            ViewBag.Title = "后台管理(首页)";
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Introduction()
+        {
+            ViewBag.Title = "后台管理(公司简介)";
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Statement()
+        {
+            ViewBag.Title = "后台管理(公司宗旨)";
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Honor()
+        {
+            ViewBag.Title = "后台管理(公司荣誉)";
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult New()
+        {
+            ViewBag.Title = "后台管理(新闻动态)";
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Product()
+        {
+            ViewBag.Title = "后台管理(产品中心)";
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Show()
+        {
+            ViewBag.Title = "后台管理(产品展示)";
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Contact()
+        {
+            ViewBag.Title = "后台管理(联系我们)";
             return View();
         }
 
 
-        [HttpPost]
-        public ActionResult HomeUpload(ModHomeUpload model)
-        {
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //public ActionResult HomeUpload(ModHomeUpload model)
+        //{
+        //    return RedirectToAction("Index");
+        //}
     }
 }
