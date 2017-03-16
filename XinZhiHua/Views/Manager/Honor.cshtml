@@ -1,3 +1,28 @@
 ﻿@{
     Layout = "~/Views/Shared/_Manager_Layout.cshtml";
 }
+<link rel=stylesheet type=text/css href="http://ueditor.baidu.com/umeditor/themes/default/css/umeditor.min.css" />
+<script src="http://ueditor.baidu.com/umeditor/third-party/template.min.js"></script>
+<script src="http://ueditor.baidu.com/umeditor/umeditor.config.js"></script>
+<script src="http://ueditor.baidu.com/umeditor/umeditor.min.js"></script>
+<script src="http://ueditor.baidu.com/umeditor/lang/zh-cn/zh-cn.js"></script>
+<div class="container">
+    <h3 class="page-header">公司荣誉</h3>
+    <script type="text/plain" id="myEditor" style="width:100%;height:400px;">
+        <p>请输入</p>
+    </script>
+    <hr />
+    <p>
+        <button class="btn btn-primary">　保存　</button>
+    </p>
+</div>
+
+
+<script type="text/javascript">
+    //实例化编辑器
+    var um = UM.getEditor('myEditor');
+    um.addListener('blur',function(){
+        $('#focush2').html('编辑器失去焦点了')
+    });
+
+</script>
