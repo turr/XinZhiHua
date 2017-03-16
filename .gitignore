@@ -1,5 +1,5 @@
 .vs
 XinZhiHua/App_Data/db.db
-XinZhiHua/bin/*
+XinZhiHua/bin
 XinZhiHua/obj
 XinZhiHua/XinZhiHua.csproj.user
