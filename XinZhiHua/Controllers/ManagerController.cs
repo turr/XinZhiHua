@@ -118,13 +118,57 @@ namespace XinZhiHua.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
         [Authorize]
         public ActionResult Introduction()
         {
             ViewBag.Title = "后台管理(公司简介)";
+            try
+            {
+                string action_name = RouteData.Values["action"].ToString().ToLower();
+                ISettingService service = new SettingService();
+                Setting db_data = service.Table().Where(M => M.Type == action_name).FirstOrDefault();
+                ViewBag.Data = Newtonsoft.Json.JsonConvert.SerializeObject(db_data);
+            }
+            catch
+            {
+            }
             return View();
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult IntroductionPost()
+        {
+            string content = Request.Form["save_content"] == null ? "" : Request.Form["save_content"];
+
+            if (Request.Form["type"] != null)
+            {
+                string type = Request.Form["type"].ToString().ToLower();
+                try
+                {
+                    ISettingService service = new SettingService();
+                    Setting data = service.Table().Where(M => M.Type == type).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Setting();
+                        data.Type = type;
+                        data.Content = content;
+                        data.Img = "";
+                        service.Insert(data);
+                    }
+                    else
+                    {
+                        data.Content = content;
+                        service.Update(data);
+                    }
+                }
+                catch
+                {
+                }
+            }
+            return RedirectToAction("Introduction", "Manager");
+        }
+
 
         [Authorize]
         public ActionResult Statement()
