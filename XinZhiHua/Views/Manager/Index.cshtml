@@ -1,70 +1,164 @@
 ﻿@{
     Layout = "~/Views/Shared/_Manager_Layout.cshtml";
+    List<Setting> data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Setting>>(ViewBag.Data);
+}
+
+@section add_css{
+    <link rel=stylesheet type=text/css href="@Url.Content("~/Content/Lib/webuploader-0.1.5/webuploader.css")" />
+}
+@section add_scripts{
+    <script src="@Url.Content("~/Content/Lib/webuploader-0.1.5/webuploader.js")"></script>
+    <script src="@Url.Content("~/Content/Js/manager-index.js")"></script>
 }
 
 <div class="container">
+    @{ 
+        string index1 = "index1";
+        string content1 = "";
+        string img1 = "";
+        string img1_display = "none";
+
+        Setting temp1 = data.Where(M=>M.Type == index1).FirstOrDefault();
+        if(temp1 != null)
+        {
+            content1  = temp1.Content== null ? "" : temp1.Content;
+            img1 = string.IsNullOrEmpty(temp1.Img)  ? "" : Url.Content(temp1.Img);
+            img1_display = string.IsNullOrEmpty(img1) ? "none" : "block";
+        }
+    }
     <h3 class="page-header">
         公司简介
     </h3>
-
-    <div class="row">
-        <div class="col-lg-9">
-            <textarea class="form-control" rows="6" placeholder="请输入简介"></textarea>
+    <div class="row" name="box">
+        <input name="type" type="hidden" value="@index1" />
+        <div class="col-lg-8">
+            <textarea name="content" class="form-control" rows="10" placeholder="请输入简介" >@content1</textarea>
         </div>
-        <div class="col-lg-3">
-            图片上传按钮
+        <div class="col-lg-4">
+            <div id="uploader-demo">
+                <div name="upload_img_@index1">选择图片</div>
+                <div name="upload_show_img" class="uploader-list" style="display: @img1_display">
+                    <div class="file-item thumbnail" >
+                        <img src="@img1" style="max-height: 160px;">
+                        <div class="info"></div>
+                    </div>
+                </div>
+                <span />
+            </div>
         </div>
         <div class="col-lg-12">
-            <br/>
-            <button class="btn btn-primary">　保存　</button>
+            <br />
+            <button name="sub" class="btn btn-primary">　保存　</button>
+            <span name="error"></span>
         </div>
     </div>
     <br/>
 
+    @{
+        string index2 = "index2";
+        string content2 = "";
+        string img2 = "";
+        string img2_display = "none";
+
+        Setting temp2 = data.Where(M => M.Type == index2).FirstOrDefault();
+        if (temp2 != null)
+        {
+            content2 = temp2.Content == null ? "" : temp2.Content;
+            img2 = string.IsNullOrEmpty(temp2.Img) ? "" : Url.Content(temp2.Img);
+            img2_display = string.IsNullOrEmpty(img2) ? "none" : "block";
+        }
+    }
+
     <h3 class="page-header">
         公司宗旨
     </h3>
-    <div class="row">
-        <div class="col-lg-9">
-            <textarea class="form-control" rows="6" placeholder="请输入宗旨"></textarea>
+    <div class="row" name="box">
+        <input name="type" type="hidden" value="@index2" />
+        <div class="col-lg-8">
+            <textarea name="content" class="form-control" rows="10" placeholder="请输入宗旨">@content2</textarea>
         </div>
-        <div class="col-lg-3">
-            图片上传按钮
+        <div class="col-lg-4">
+            <div id="uploader-demo">
+                <div name="upload_img_@index2">选择图片</div>
+                <div name="upload_show_img" class="uploader-list" style="display: @img2_display">
+                    <div class="file-item thumbnail">
+                        <img src="@img2" style="max-height: 160px;">
+                        <div class="info"></div>
+                    </div>
+                </div>
+                <span />
+            </div>
         </div>
         <div class="col-lg-12">
             <br />
-            <button class="btn btn-primary">　保存　</button>
+            <button name="sub" class="btn btn-primary">　保存　</button>
+            <span name="error"></span>
         </div>
     </div>
     <br />
 
+    @{
+        string index3 = "index3";
+        string img3 = "";
+        string img3_display = "none";
+
+        Setting temp3 = data.Where(M => M.Type == index3).FirstOrDefault();
+        if (temp3 != null)
+        {
+            img3 = string.IsNullOrEmpty(temp3.Img) ? "" : Url.Content(temp3.Img);
+            img3_display = string.IsNullOrEmpty(img3) ? "none" : "block";
+        }
+    }
     <h3 class="page-header">
         产品中心
     </h3>
-    <div class="row">
-       
-        <div class="col-lg-3">
-            图片上传按钮
+    <div class="row" name="box">
+        <input name="type" type="hidden" value="@index3" />
+        <div class="col-lg-4">
+            <div id="uploader-demo">
+                <div name="upload_img_@index3">选择图片</div>
+                <div name="upload_show_img" class="uploader-list" style="display: @img3_display">
+                    <div class="file-item thumbnail">
+                        <img src="@img3" style="max-height: 160px;">
+                        <div class="info"></div>
+                    </div>
+                </div>
+                <span />
+            </div>
         </div>
         <div class="col-lg-12">
             <br />
-            <button class="btn btn-primary">　保存　</button>
+            <button name="sub" class="btn btn-primary">　保存　</button>
+            <span name="error"></span>
         </div>
     </div>
     <br />
 
+    @{
+        string index4 = "index4";
+        string content4 = "";
+
+        Setting temp4 = data.Where(M => M.Type == index4).FirstOrDefault();
+        if (temp4 != null)
+        {
+            content4 = temp4.Content == null ? "" : temp4.Content;
+        }
+    }
     <h3 class="page-header">
         SEO设置
     </h3>
-    <div class="row">
-
-        <div class="col-lg-9">
-            <textarea class="form-control" rows="6" placeholder="请输入宗旨"></textarea>
+    <div class="row" name="box">
+        <input name="type" type="hidden" value="@index4" />
+        <div class="col-lg-8">
+            <textarea name="content" class="form-control" rows="10" placeholder="请输入SEO设置">@content4</textarea>
         </div>
         <div class="col-lg-12">
             <br />
-            <button class="btn btn-primary">　保存　</button>
+            <button name="sub" class="btn btn-primary">　保存　</button>
+            <span name="error"></span>
         </div>
     </div>
     <br />
 </div>
+
+

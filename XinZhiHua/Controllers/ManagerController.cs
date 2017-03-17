@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using XinZhiHua.Models.Req;
 
 namespace XinZhiHua.Controllers
 {
@@ -17,15 +17,17 @@ namespace XinZhiHua.Controllers
         }
 
         [HttpPost]
-        public ActionResult LogOn(ModLogOn model)
+        public ActionResult LogOnPost()
         {
-            if (ModelState.IsValid)
+            string name =  Request.Form["name"];
+            string password = Request.Form["password"];
+            if((!string.IsNullOrEmpty(name)) && (!string.IsNullOrEmpty(password)))
             {
                 Manager result = null;
                 IManagerService service = new ManagerService();
                 try
                 {
-                    result = service.Table().Where(M => M.Name == model.Name && M.Password == model.Password).FirstOrDefault();
+                    result = service.Table().Where(M => M.Name == name && M.Password == password).FirstOrDefault();
                 }
                 catch
                 {
@@ -58,6 +60,7 @@ namespace XinZhiHua.Controllers
             {
                 ViewBag.SubmitError = "登录失败";
             }
+           
             return View();
         }
 
@@ -65,8 +68,56 @@ namespace XinZhiHua.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "后台管理(首页)";
+            try
+            {
+                string action_name = RouteData.Values["action"].ToString().ToLower();
+                ISettingService service = new SettingService();
+                List<Setting> db_data = service.Table().Where(M => M.Type.IndexOf(action_name) != -1).ToList();
+                ViewBag.Data = Newtonsoft.Json.JsonConvert.SerializeObject(db_data);
+            }
+            catch
+            {
+            }
             return View();
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult IndexPost()
+        {
+            bool result = false;
+
+            string content = Request.Form["content"] == null ? "" : Request.Form["content"];
+            if(Request.Form["type"]!= null)
+            {
+                string type = Request.Form["type"].ToString().ToLower();
+
+                try
+                {
+                    ISettingService service = new SettingService();
+                    Setting data = service.Table().Where(M => M.Type == type).FirstOrDefault();
+                    if (data == null)
+                    {
+                        data = new Setting();
+                        data.Type = type;
+                        data.Content = content;
+                        data.Img = "";
+                        service.Insert(data);
+                    }
+                    else
+                    {
+                        data.Content = content;
+                        service.Update(data);
+                    }
+                    result = true;
+                }
+                catch
+                {
+                }
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         [Authorize]
         public ActionResult Introduction()
@@ -118,10 +169,49 @@ namespace XinZhiHua.Controllers
         }
 
 
-        //[HttpPost]
-        //public ActionResult HomeUpload(ModHomeUpload model)
-        //{
-        //    return RedirectToAction("Index");
-        //}
+        [HttpPost]
+        public bool UploadImg()
+        {
+            bool result = false;
+            try
+            {
+                string type = Request.QueryString["key"];
+                if (!string.IsNullOrEmpty(type))
+                {
+                    type = type.ToString().ToLower();
+
+                    if (Request.Files.Count > 0)
+                    {
+                        HttpPostedFileBase f = Request.Files[0];
+                        string file_name = type+"_" + DateTime.Now.ToString("yyMMddHHmmss") + f.FileName.Substring(f.FileName.LastIndexOf("."));
+                        string path = "~/Content/Img/";
+                        var file = Path.Combine(Request.MapPath(path), Path.GetFileName(file_name));
+                        f.SaveAs(file);
+
+                        ISettingService service = new SettingService();
+                        Setting data = service.Table().Where(M => M.Type == type).FirstOrDefault();
+                        if (data == null)
+                        {
+                            data = new Setting();
+                            data.Type = type;
+                            data.Content = "";
+                            data.Img = path + file_name;
+                            service.Insert(data);
+                        }
+                        else
+                        {
+                            data.Img = path + file_name;
+                            service.Update(data);
+                        }
+
+                        result = true;
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return result;
+        }
     }
 }

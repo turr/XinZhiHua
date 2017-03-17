@@ -12,7 +12,8 @@ public class MyDbContext : DbContext
     {
     }
 
-    public DbSet<Manager> setting { get; set; }
+    public DbSet<Manager> manager { get; set; }
+    public DbSet<Setting> setting { get; set; }
 
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)

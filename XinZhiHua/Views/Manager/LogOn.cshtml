@@ -3,13 +3,13 @@
 }
 
 <div class="container">
-    @using (Html.BeginForm("LogOn", "Manager", FormMethod.Post, new { @class = "form-signin", @autocomplete = "off" }))
+    @using (Html.BeginForm("LogOnPost", "Manager", FormMethod.Post, new { @class = "form-signin", @autocomplete = "off" }))
     {
         <h2 class="form-signin-heading">后台登录</h2>
         <label for="inputEmail" class="sr-only">用户名</label>
-        <input type="text" name="Name" class="form-control" placeholder="用户名" required="" autofocus="">
+        <input type="text" name="name" class="form-control" placeholder="用户名" required="" autofocus="">
         <label for="inputPassword" class="sr-only">密码</label>
-        <input type="password" name="Password" class="form-control" placeholder="密码" required="">
+        <input type="password" name="password" class="form-control" placeholder="密码" required="">
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
         <span name="error_message">@ViewBag.SubmitError</span>
     }
