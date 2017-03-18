@@ -1,9 +1,17 @@
 ﻿@{
     Layout = "~/Views/Shared/_Manager_Layout.cshtml";
+
+    string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
+
+    List<New> data = new List<New>();
+    if (!string.IsNullOrEmpty(ViewBag.Data))
+    {
+        data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<New>>(ViewBag.Data);
+    }
 }
 <div class="container">
     <h3 class="page-header">
-        <a href="#add-news" class="btn btn-success pull-right">　＋ 添加新闻　</a>
+        <a href="@Url.Content("~/Manager/NewEdit")" class="btn btn-success pull-right">　＋ 添加新闻　</a>
         新闻列表
     </h3>
     <table class="table table-striped table-bordered">
@@ -13,40 +21,49 @@
             <th align="center">创建时间</th>
             <th>操作</th>
         </thead>
-        <tr>
-            <td>
-                图片
-            </td>
-            <td><a href="#">标题内页</a></td>
-            <td>2017-01-01 17:00</td>
-            <td>
-                <a href="#"><i class="glyphicon glyphicon-edit"></i> </a>　
-                <a href="#"><i class="glyphicon glyphicon-trash"></i></a>
-            </td>
-        </tr>
+        @{
+            foreach (New temp in data)
+            {
+                string img = string.IsNullOrEmpty(temp.Img) ? "" : Url.Content(temp.Img);
+                string title = string.IsNullOrEmpty(temp.Title) ? "" : temp.Title;
+                string  addTime = temp.AddTime == null ? "" : temp.AddTime.ToString("yyyy-MM-dd HH:mm:ss");
+
+                <tr>
+                    <td>
+                        <img src="@img" style="max-width:200px">
+                    </td>
+                    <td>@title</td>
+                    <td>@addTime</td>
+                    <td>
+                        <a href="@Url.Content("~/Manager/NewEdit?id="+temp.Id)"><i class="glyphicon glyphicon-edit"></i> </a>
+                        <a href="@Url.Content("~/Manager/NewDelete?id="+temp.Id)" onClick="return confirm('确定删除?');"><i class="glyphicon glyphicon-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        }
     </table>
     <div class="pager-nav">
         <span class="pull-right" style="padding-top:10px">
-            1/5页,共55条
+            @{@ViewBag.NowPage}/@{@ViewBag.AllPage}页,共@{@ViewBag.AllCount}条
         </span>
         <ul class="pagination">
-            <li class="disabled">
-                <a href="#" aria-label="Previous">
+            <li >
+                <a href="@Url.Content("~/Manager/New?page=1")" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
+            @{
+                for (int i = 1; i <= ViewBag.AllPage; i++)
+                {
+                    string active = i == ViewBag.NowPage ? "active" : "";
+                    <li class="@active"><a href="@Url.Content("~/Manager/New?page="+ i)">@i</a></li>
+                }
+            }
             <li>
-                <a href="#" aria-label="Next">
+                <a href="@Url.Content("~/Manager/New?page="+ ViewBag.AllPage)" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
-            
         </ul>
     </div>
-    
 </div>

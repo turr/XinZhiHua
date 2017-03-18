@@ -1,5 +1,12 @@
 ﻿jQuery(function () {
    
+    $("#myEditor").val(c.HtmlDecode(c.HtmlDecode(content)));
+    var editor = new UE.ui.Editor({ initialFrameHeight: 400, initialFrameWidth: "auto" });
+    editor.render("myEditor");
+
+    _have_img = false;//是否有选图片
+    _data_id = 0;//数据ID
+
     var InitUpload = function (box) {
         var type = box.find("input[name='type']").val();
         var upload_show_img = box.find("div[name='upload_show_img']");
@@ -23,7 +30,7 @@
             swf: '/Content/Lib/webuploader-0.1.5/Uploader.swf',
 
             // 文件接收服务端。
-            server: '/manager/UploadImg?key=' + type,
+            server: '/manager/UploadImg?key=' + type+'&from=new',
 
             // 选择文件的按钮。可选。
             // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -56,7 +63,8 @@
                 }
                 $img.attr('src', src);
             }, thumbnailWidth, thumbnailHeight);
-            box.find("div[name='upload_show_img']").css("display","block");
+            box.find("div[name='upload_show_img']").css("display", "block");
+            _have_img = true;
         });
 
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
@@ -82,43 +90,57 @@
             }
             $error.text('上传失败');
         });
+
+        uploader.on('uploadComplete', function (file) {
+            window.location.href = "/manager/new";
+        });
         return uploader;
 
     }
 
-    var UpdateContent = function (box) {
-        var content = box.find("textarea[name='content']").val();
-        var type = box.find("input[name='type']").val();
+    var UpdateData = function (box) {
+        var id = box.find("input[name='id']").val();
+        var title = box.find("input[name='title']").val();
+        var detail = box.find("textarea[name='detail']").val();
+        var content = c.HtmlEncode(UE.getEditor('myEditor').getContent());
+
         $.ajax({
             cache: false,
-            url: "/manager/IndexPost",
+            url: "/manager/NewEditPost",
             type: "post",
-            async:false,
+            async: false,
             data: {
-                content: content,
-                type: type
+                id: id,
+                title: title,
+                detail: detail,
+                content: content
             },
             dataType: "json",
             success: function (json) {
-                if (json) {
-                    box.find("span[name='error']").text("保存文本成功");
-                } else {
-                    box.find("span[name='error']").text("保存文本失败");
-                }
+                _data_id = json;
             }, error: function () {
-                box.find("sapn[name='error']").text("保存文本失败");
             }
         });
     }
 
-    $.each($("[name='box']"), function () {
-        var box = $(this);
-        var uploader = InitUpload(box);
 
-        box.find("button[name='sub']").click(function () {
-            UpdateContent(box);
-            uploader.upload();
-        });
+    var box = $("[name='box']");
+    var uploader = InitUpload(box);
+
+    $("button[name='save']").click(function () {
+        var title = box.find("input[name='title']").val();
+        if (title == "") {
+            box.find("input[name='title']").focus();
+        } else {
+            UpdateData(box);
+            if (_have_img) {
+                uploader.options.server += "&dataId=" + _data_id;
+                uploader.upload();
+            }
+            else {
+                window.location.href = "/manager/new";
+            }
+        }
     });
 
 });

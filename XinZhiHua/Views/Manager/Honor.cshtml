@@ -15,14 +15,15 @@
 }
 
 @section add_scripts{
+    <script>
+            var content = "@content";
+    </script>
     <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/ueditor.config.js")"></script>
     <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/ueditor.all.min.js")"></script>
     <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/lang/zh-cn/zh-cn.js")"></script>
     <script src="@Url.Content("~/Content/Js/common.js")"></script>
     <script src="@Url.Content("~/Content/Js/manager-ueditor.js")"></script>
     <script>
-        var content = "@content";
-
         //弹出消息
         var alert_message = "@alert_message";
         if (alert_message != "") {

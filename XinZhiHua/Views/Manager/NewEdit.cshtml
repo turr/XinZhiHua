@@ -1,0 +1,85 @@
+﻿@{
+    Layout = "~/Views/Shared/_Manager_Layout.cshtml";
+    string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
+
+    New data = null;
+    if (!string.IsNullOrEmpty(ViewBag.Data))
+    {
+        data = Newtonsoft.Json.JsonConvert.DeserializeObject<New>(ViewBag.Data);
+    }
+
+    string id = "";
+    string title = "";
+    string content = "";
+    string detail = "";
+    string img = "";
+    string img_display = "none";
+    string addTime = "";
+    if (data != null)
+    {
+        id =  data.Id.ToString();
+        title = string.IsNullOrEmpty(data.Title) ? "" : data.Title;
+        content = string.IsNullOrEmpty(data.Content)  ? "" : data.Content;
+        detail = string.IsNullOrEmpty(data.Detail)   ? "" : data.Detail;
+        img = string.IsNullOrEmpty(data.Img)   ? "" : Url.Content(data.Img);
+        img_display = string.IsNullOrEmpty(img) ? "none" : "block";
+        addTime = data.AddTime == null ? "" : data.AddTime.ToString("yyyy-MM-dd HH:mm:ss");
+    }
+}
+
+@section add_css{
+    <link rel=stylesheet type=text/css href="@Url.Content("~/Content/Lib/webuploader-0.1.5/webuploader.css")" />
+    <link rel=stylesheet type=text/css href="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/themes/default/css/ueditor.min.css")" />
+}
+@section add_scripts{
+    <script>
+                var content = "@content";
+    </script>
+    <script src="@Url.Content("~/Content/Lib/webuploader-0.1.5/webuploader.js")"></script>
+    <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/ueditor.config.js")"></script>
+    <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/ueditor.all.min.js")"></script>
+    <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/lang/zh-cn/zh-cn.js")"></script>
+    <script src="@Url.Content("~/Content/Js/common.js")"></script>
+    <script src="@Url.Content("~/Content/Js/manager-new-edit.js")"></script>
+}
+
+<div class="container" name="box">
+    <h3 class="page-header">添加/修改新闻</h3>
+    <div class="row">
+        <input name="type" type="hidden" value="@action_name" />
+        <input name="id" type="hidden" value="@id" />
+        <div class="col-lg-8">
+            <h3>标题</h3>
+            <br />
+            <div><input name="title" type="text" class="form-control" value="@title"  /></div>
+            <h3>内容简介</h3>
+            <br />
+            <div>
+                <textarea name="detail" class="form-control" rows="4">@detail</textarea>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <h3>封面图片</h3>
+            <br />
+            <div>
+                <div name="upload_img_@action_name">选择图片</div>
+                <div name="upload_show_img" class="uploader-list" style="display: @img_display">
+                    <div class="file-item thumbnail">
+                        <img src="@img" style="max-height: 160px;">
+                        <div class="info"></div>
+                    </div>
+                </div>
+                <span />
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <br />
+            <h3>内容</h3>
+            <br />
+            <script type="text/plain" id="myEditor" style="width:100%;height:400px;">
+            </script>
+            <br />
+            <button name="save"  class="btn btn-primary">　保存　</button>
+        </div>
+    </div>
+</div>

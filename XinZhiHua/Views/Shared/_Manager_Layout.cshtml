@@ -24,7 +24,7 @@
                         if (!string.IsNullOrEmpty(temp))
                         {
                             string[] data = temp.Split('_');
-                            string add_class = action_name == data[0] ? "active" : "";
+                            string add_class = action_name.IndexOf(data[0]) != -1  ? "active" : "";
                             string name = string.IsNullOrEmpty(data[1]) ? "" : data[1];
                             string url = "~/manager/" + data[0];
                             <li class="@add_class"><a href="@Url.Content(url)">@name</a></li>

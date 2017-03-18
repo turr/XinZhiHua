@@ -147,6 +147,7 @@
     <Content Include="Content\Css\manager-common.css" />
     <Content Include="Content\Css\manager-logon.css" />
     <Content Include="Content\Js\common.js" />
+    <Content Include="Content\Js\manager-new-edit.js" />
     <Content Include="Content\Js\manager-ueditor.js" />
     <Content Include="Content\Js\manager-index.js" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap-theme.css" />
@@ -439,8 +440,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BLL\BaseService.cs" />
     <Compile Include="BLL\IBaseService.cs" />
+    <Compile Include="BLL\InterfaceService\INewService.cs" />
     <Compile Include="BLL\InterfaceService\ISettingService.cs" />
     <Compile Include="BLL\InterfaceService\IManagerService.cs" />
+    <Compile Include="BLL\Service\NewService.cs" />
     <Compile Include="BLL\Service\SettingService.cs" />
     <Compile Include="BLL\Service\ManagerService.cs" />
     <Compile Include="Content\Lib\ueditor1_4_3_3-utf8-net\net\App_Code\Config.cs" />
@@ -460,6 +463,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\New.cs" />
     <Compile Include="Models\Setting.cs" />
     <Compile Include="Models\Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -496,6 +500,9 @@
     <Content Include="Content\Lib\ueditor1_4_3_3-utf8-net\third-party\video-js\font\vjs.eot" />
     <Content Include="Content\Lib\ueditor1_4_3_3-utf8-net\third-party\video-js\font\vjs.ttf" />
     <Content Include="Content\Lib\ueditor1_4_3_3-utf8-net\third-party\video-js\font\vjs.woff" />
+    <Content Include="Views\Manager\NewEdit.cshtml" />
+    <Content Include="Views\Manager\ProductEdit.cshtml" />
+    <Content Include="Views\Manager\ShowEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
