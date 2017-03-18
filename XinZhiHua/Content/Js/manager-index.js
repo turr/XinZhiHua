@@ -42,7 +42,7 @@
             var $li = $(
                     '<div id="' + file.id + '" class="file-item thumbnail">' +
                         '<img>' +
-                        '<div class="info">' + file.name + '</div>' +
+                        //'<div class="info">' + file.name + '</div>' +
                     '</div>'
                     ),
                 $img = $li.find('img');
@@ -61,7 +61,15 @@
 
         // 文件上传成功，给item添加成功class, 用样式标记上传成功。
         uploader.on('uploadSuccess', function (file) {
-            location.reload();
+            //alert("上传图片成功");
+            //location.reload();
+            var $li = $('#' + file.id),
+                $success = $li.find('div.success');
+            // 避免重复创建
+            if (!$success.length) {
+                $success = $('<div class="success"></div>').appendTo($li);
+            }
+            $success.text('上传成功');
         });
 
         // 文件上传失败，现实上传出错。

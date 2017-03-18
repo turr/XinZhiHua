@@ -1,6 +1,12 @@
 ﻿@{
     Layout = "~/Views/Shared/_Manager_Layout.cshtml";
-    List<Setting> data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Setting>>(ViewBag.Data);
+    string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
+
+    List<Setting> data = new List<Setting>();
+    if (!string.IsNullOrEmpty(ViewBag.Data))
+    {
+        data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Setting>>(ViewBag.Data);
+    }
 }
 
 @section add_css{
@@ -13,7 +19,7 @@
 
 <div class="container">
     @{ 
-        string index1 = "index1";
+        string index1 = action_name +"1";
         string content1 = "";
         string img1 = "";
         string img1_display = "none";
@@ -55,7 +61,7 @@
     <br/>
 
     @{
-        string index2 = "index2";
+        string index2 = action_name +"2";
         string content2 = "";
         string img2 = "";
         string img2_display = "none";
@@ -98,7 +104,7 @@
     <br />
 
     @{
-        string index3 = "index3";
+        string index3 = action_name +"3";
         string img3 = "";
         string img3_display = "none";
 
@@ -135,7 +141,7 @@
     <br />
 
     @{
-        string index4 = "index4";
+        string index4 = action_name +"4";
         string content4 = "";
 
         Setting temp4 = data.Where(M => M.Type == index4).FirstOrDefault();

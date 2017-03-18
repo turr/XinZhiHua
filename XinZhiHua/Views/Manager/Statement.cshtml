@@ -1,28 +1,50 @@
 ﻿@{
     Layout = "~/Views/Shared/_Manager_Layout.cshtml";
+    string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
+
+    Setting data = ViewBag.Data == null ? null : Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(ViewBag.Data);
+    string content = "";
+    if (data != null)
+    {
+        content = data.Content == null ? "" : data.Content;
+    }
+    string alert_message = ViewBag.AlertMessage;
 }
-<link rel=stylesheet type=text/css href="http://ueditor.baidu.com/umeditor/themes/default/css/umeditor.min.css" />
-<script src="http://ueditor.baidu.com/umeditor/third-party/template.min.js"></script>
-<script src="http://ueditor.baidu.com/umeditor/umeditor.config.js"></script>
-<script src="http://ueditor.baidu.com/umeditor/umeditor.min.js"></script>
-<script src="http://ueditor.baidu.com/umeditor/lang/zh-cn/zh-cn.js"></script>
-<div class="container">
-    <h3 class="page-header">公司宗旨</h3>
-    <script type="text/plain" id="myEditor" style="width:100%;height:400px;">
-        <p>请输入</p>
+
+
+@section add_css{
+    <link rel=stylesheet type=text/css href="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/themes/default/css/ueditor.min.css")" />
+}
+
+@section add_scripts{
+    <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/ueditor.config.js")"></script>
+    <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/ueditor.all.min.js")"></script>
+    <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/lang/zh-cn/zh-cn.js")"></script>
+    <script src="@Url.Content("~/Content/Js/common.js")"></script>
+    <script src="@Url.Content("~/Content/Js/manager-ueditor.js")"></script>
+    <script>
+        var content = "@content";
+
+        //弹出消息
+        var alert_message = "@alert_message";
+        if (alert_message != "") {
+            alert(alert_message);
+            alert_message = "";
+        }
     </script>
-    <hr />
-    <p>
-        <button class="btn btn-primary">　保存　</button>
-    </p>
-</div>
+}
 
-
-<script type="text/javascript">
-    //实例化编辑器
-    var um = UM.getEditor('myEditor');
-    um.addListener('blur',function(){
-        $('#focush2').html('编辑器失去焦点了')
-    });
-
-</script>
+@using (Html.BeginForm("StatementPost", "Manager", FormMethod.Post, new { autocomplete = "off" }))
+{
+    <div class="container">
+        <h3 class="page-header">公司宗旨</h3>
+        <script type="text/plain" id="myEditor" style="width:100%;height:400px;">
+        </script>
+        <input type="hidden" name="save_content" />
+        <input type="hidden" name="type" value="@action_name" />
+        <hr />
+        <p>
+            <button name="save" type="submit" class="btn btn-primary">　保存　</button>
+        </p>
+    </div>
+}

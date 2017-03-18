@@ -1,7 +1,14 @@
 ﻿@{
     Layout = "~/Views/Shared/_Manager_Layout.cshtml";
-    Setting data = Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(ViewBag.Data);
+    string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
 
+    Setting data = ViewBag.Data == null ? null : Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(ViewBag.Data);
+    string content = "";
+    if(data != null)
+    {
+        content = data.Content == null ? "" : data.Content;
+    }
+    string alert_message = ViewBag.AlertMessage;
 }
 
 @section add_css{
@@ -13,9 +20,16 @@
     <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/ueditor.all.min.js")"></script>
     <script src="@Url.Content("~/Content/Lib/ueditor1_4_3_3-utf8-net/lang/zh-cn/zh-cn.js")"></script>
     <script src="@Url.Content("~/Content/Js/common.js")"></script>
-    <script src="@Url.Content("~/Content/Js/manager-introduction.js")"></script>
+    <script src="@Url.Content("~/Content/Js/manager-ueditor.js")"></script>
     <script>
-        var content = "@data.Content";
+        var content = "@content";
+        
+        //弹出消息
+        var alert_message = "@alert_message";
+        if (alert_message != "") {
+            alert(alert_message);
+            alert_message = "";
+        }
     </script>
 }
 
@@ -26,7 +40,7 @@
         <script type="text/plain" id="myEditor">
         </script>
         <input type="hidden" name="save_content" />
-        <input type="hidden" name="type" value="introduction" />
+        <input type="hidden" name="type" value="@action_name" />
         <hr />
         <p>
             <button name="save" type="submit" class="btn btn-primary">　保存　</button>

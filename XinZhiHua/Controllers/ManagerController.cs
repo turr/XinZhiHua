@@ -61,24 +61,19 @@ namespace XinZhiHua.Controllers
                 ViewBag.SubmitError = "登录失败";
             }
            
-            return View();
+            return View("Logon");
         }
 
         [Authorize]
         public ActionResult Index()
         {
             ViewBag.Title = "后台管理(首页)";
-            try
-            {
-                string action_name = RouteData.Values["action"].ToString().ToLower();
-                ISettingService service = new SettingService();
-                List<Setting> db_data = service.Table().Where(M => M.Type.IndexOf(action_name) != -1).ToList();
-                ViewBag.Data = Newtonsoft.Json.JsonConvert.SerializeObject(db_data);
-            }
-            catch
-            {
-            }
+            string action_name = RouteData.Values["action"].ToString().ToLower();
+            List<Setting> data = GetData(action_name).ToList();
+            string page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            ViewBag.Data = page_data;
             return View();
+
         }
 
         [Authorize]
@@ -91,47 +86,20 @@ namespace XinZhiHua.Controllers
             if(Request.Form["type"]!= null)
             {
                 string type = Request.Form["type"].ToString().ToLower();
-
-                try
-                {
-                    ISettingService service = new SettingService();
-                    Setting data = service.Table().Where(M => M.Type == type).FirstOrDefault();
-                    if (data == null)
-                    {
-                        data = new Setting();
-                        data.Type = type;
-                        data.Content = content;
-                        data.Img = "";
-                        service.Insert(data);
-                    }
-                    else
-                    {
-                        data.Content = content;
-                        service.Update(data);
-                    }
-                    result = true;
-                }
-                catch
-                {
-                }
+                result =  SaveData(type, content);
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
-        public ActionResult Introduction()
+        public ActionResult Introduction(string message = "")
         {
             ViewBag.Title = "后台管理(公司简介)";
-            try
-            {
-                string action_name = RouteData.Values["action"].ToString().ToLower();
-                ISettingService service = new SettingService();
-                Setting db_data = service.Table().Where(M => M.Type == action_name).FirstOrDefault();
-                ViewBag.Data = Newtonsoft.Json.JsonConvert.SerializeObject(db_data);
-            }
-            catch
-            {
-            }
+            ViewBag.AlertMessage = message;
+            string action_name = RouteData.Values["action"].ToString().ToLower();
+            Setting data = GetData(action_name).FirstOrDefault();
+            string page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            ViewBag.Data = page_data;
             return View();
         }
 
@@ -139,49 +107,71 @@ namespace XinZhiHua.Controllers
         [HttpPost]
         public ActionResult IntroductionPost()
         {
+            bool result = false;
             string content = Request.Form["save_content"] == null ? "" : Request.Form["save_content"];
-
             if (Request.Form["type"] != null)
             {
                 string type = Request.Form["type"].ToString().ToLower();
-                try
-                {
-                    ISettingService service = new SettingService();
-                    Setting data = service.Table().Where(M => M.Type == type).FirstOrDefault();
-                    if (data == null)
-                    {
-                        data = new Setting();
-                        data.Type = type;
-                        data.Content = content;
-                        data.Img = "";
-                        service.Insert(data);
-                    }
-                    else
-                    {
-                        data.Content = content;
-                        service.Update(data);
-                    }
-                }
-                catch
-                {
-                }
+                result=  SaveData(type, content);
             }
-            return RedirectToAction("Introduction", "Manager");
+            string message = result == true ? "保存成功" : "保存失败";
+            return RedirectToRoute(new { controller = "Manager", action = "Introduction", message = message });
         }
 
-
         [Authorize]
-        public ActionResult Statement()
+        public ActionResult Statement(string message = "")
         {
             ViewBag.Title = "后台管理(公司宗旨)";
+            ViewBag.AlertMessage = message;
+            string action_name = RouteData.Values["action"].ToString().ToLower();
+            Setting data = GetData(action_name).FirstOrDefault();
+            string page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            ViewBag.Data = page_data;
             return View();
         }
 
         [Authorize]
-        public ActionResult Honor()
+        [HttpPost]
+        public ActionResult StatementPost()
+        {
+            bool result = false;
+            string content = Request.Form["save_content"] == null ? "" : Request.Form["save_content"];
+            if (Request.Form["type"] != null)
+            {
+                string type = Request.Form["type"].ToString().ToLower();
+                result = SaveData(type, content);
+            }
+            string message = result == true ? "保存成功" : "保存失败";
+            return RedirectToRoute(new { controller = "Manager", action = "Statement", message = message });
+
+        }
+
+        [Authorize]
+        public ActionResult Honor(string message = "")
         {
             ViewBag.Title = "后台管理(公司荣誉)";
+            ViewBag.AlertMessage = message;
+            string action_name = RouteData.Values["action"].ToString().ToLower();
+            Setting data = GetData(action_name).FirstOrDefault();
+            string page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            ViewBag.Data = page_data;
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult HonorPost()
+        {
+            bool result = false;
+            string content = Request.Form["save_content"] == null ? "" : Request.Form["save_content"];
+            if (Request.Form["type"] != null)
+            {
+                string type = Request.Form["type"].ToString().ToLower();
+                result = SaveData(type, content);
+            }
+            string message = result == true ? "保存成功" : "保存失败";
+            return RedirectToRoute(new { controller = "Manager", action = "Honor", message = message });
+
         }
 
         [Authorize]
@@ -206,13 +196,35 @@ namespace XinZhiHua.Controllers
         }
 
         [Authorize]
-        public ActionResult Contact()
+        public ActionResult Contact(string message = "")
         {
             ViewBag.Title = "后台管理(联系我们)";
+            ViewBag.AlertMessage = message;
+            string action_name = RouteData.Values["action"].ToString().ToLower();
+            Setting data = GetData(action_name).FirstOrDefault();
+            string page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            ViewBag.Data = page_data;
             return View();
         }
 
+        [Authorize]
+        [HttpPost]
+        public ActionResult ContactPost()
+        {
+            bool result = false;
+            string content = Request.Form["save_content"] == null ? "" : Request.Form["save_content"];
+            if (Request.Form["type"] != null)
+            {
+                string type = Request.Form["type"].ToString().ToLower();
+                result = SaveData(type, content);
+            }
+            string message = result == true ? "保存成功" : "保存失败";
+            return RedirectToRoute(new { controller = "Manager", action = "Contact", message = message });
 
+        }
+
+
+        [Authorize]
         [HttpPost]
         public bool UploadImg()
         {
@@ -256,6 +268,48 @@ namespace XinZhiHua.Controllers
             {
             }
             return result;
+        }
+
+
+        private IQueryable<Setting> GetData(string type)
+        {
+            try
+            {
+                ISettingService service = new SettingService();
+                return service.Table().Where(M => M.Type.IndexOf(type) != -1);
+            }
+            catch
+            {
+            }
+            return null;
+            
+        }
+
+        private bool SaveData(string type ,string content)
+        {
+            try
+            {
+                ISettingService service = new SettingService();
+                Setting data = service.Table().Where(M => M.Type == type).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new Setting();
+                    data.Type = type;
+                    data.Content = content;
+                    data.Img = "";
+                    service.Insert(data);
+                }
+                else
+                {
+                    data.Content = content;
+                    service.Update(data);
+                }
+                return true;
+            }
+            catch
+            {
+            }
+            return false;
         }
     }
 }

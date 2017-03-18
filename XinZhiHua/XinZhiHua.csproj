@@ -147,7 +147,7 @@
     <Content Include="Content\Css\manager-common.css" />
     <Content Include="Content\Css\manager-logon.css" />
     <Content Include="Content\Js\common.js" />
-    <Content Include="Content\Js\manager-introduction.js" />
+    <Content Include="Content\Js\manager-ueditor.js" />
     <Content Include="Content\Js\manager-index.js" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap-theme.css" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap-theme.min.css" />
