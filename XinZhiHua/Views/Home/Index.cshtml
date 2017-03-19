@@ -1,1 +1,101 @@
-﻿<h2>首页</h2>
+﻿@{
+    Layout = "~/Views/Shared/_Menu_Layout_index.cshtml";
+    string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
+
+    List<Setting> data = new List<Setting>();
+    if (!string.IsNullOrEmpty(ViewBag.Data))
+    {
+        data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Setting>>(ViewBag.Data);
+    }
+
+    List<NewAndProduct> product_data = new List<NewAndProduct>();
+    if (!string.IsNullOrEmpty(ViewBag.ProductData))
+    {
+        product_data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<NewAndProduct>>(ViewBag.ProductData);
+    }
+}
+
+<div class="container">
+    <div class="row index-list">
+        <div class="col-sm-4">
+            <div class="index-box">
+                @{ 
+                    Setting data1 = data.Where(M => M.Type == action_name + "1").FirstOrDefault();
+                    string content1 = "";
+                    string img1 = "";
+
+                    if (data1 != null)
+                    {
+                        content1 = data1.Content == null ? "" : data1.Content;
+                        img1 = string.IsNullOrEmpty(data1.Img) ? "" : Url.Content(data1.Img);
+                    }
+                }
+                <div class="cover" style="background-image: url(@img1);"></div>
+                <div class="content">
+                    <div class="title">关于建盛</div>
+                    <div class="enter-content">
+                        @content1
+                    </div>
+                    <div class="more">
+                        <a href="@Url.Content("~/Home/Introduction")">more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="index-box">
+                @{
+                    Setting data2 = data.Where(M => M.Type == action_name + "2").FirstOrDefault();
+                    string content2 = "";
+                    string img2 = "";
+
+                    if (data2 != null)
+                    {
+                        content2 = data2.Content == null ? "" : data2.Content;
+                        img2 = string.IsNullOrEmpty(data2.Img) ? "" : Url.Content(data2.Img);
+                    }
+                }
+                <div class="content">
+                    <div class="title">公司宗旨</div>
+                    <div class="enter-content">
+                        @content2
+                    </div>
+                    <div class="more">
+                        <a href="@Url.Content("~/Home/Statement")">more</a>
+                    </div>
+                </div>
+                <div class="cover" style="background-image: url(@img2);"></div>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="index-box">
+                @{
+                    Setting data3 = data.Where(M => M.Type == action_name + "3").FirstOrDefault();
+                    string img3 = "";
+                    if (data3 != null)
+                    {
+                        img3 = string.IsNullOrEmpty(data3.Img) ? "" : Url.Content(data3.Img);
+                    }
+                }
+                <div class="cover" style="background-image: url(@img3);"></div>
+                <div class="content">
+                    <div class="title">产品中心</div>
+                    <div class="index-product-list">
+                        @{
+                            foreach (NewAndProduct temp in product_data)
+                            {
+                                <a href="@Url.Content("~/Home/ProductDetail?id="+temp.Id)">@temp.Title</a>
+
+                            }
+                        }
+                    </div>
+                    <div class="more">
+                        <a href="@Url.Content("~/Home/Product")">more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

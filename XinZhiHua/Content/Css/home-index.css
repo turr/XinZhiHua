@@ -1,0 +1,347 @@
+html,body{
+	height: 100%;
+	min-height: 100%;
+	background: none;
+	position: relative;
+	min-width: 1340px;
+}
+.wrapper{
+	min-height: 100%;
+	margin-bottom: -120px;
+	position: relative;
+	background: url(../PageImg/border.png) left top  repeat-y;
+}
+
+.push{
+	height: 150px;
+}
+html{
+	background: url(../PageImg/border.png) right top  repeat-y #d3dbce;
+	
+}
+body{
+	background: url(../PageImg/border.png) left top  repeat-y;
+}
+.index-bg{
+	background: url(../PageImg/index-bg.jpg) top center no-repeat;
+	background-size:100% auto ;
+}
+.header-nav{
+	text-align: center;
+}
+.header-nav ul{
+	margin: 0;
+	list-style: none;
+	display: inline-block;
+	letter-spacing: -4px;
+	padding: 0;
+	text-shadow: 0 1px 2px rgba(0,0,0,.75);
+	box-shadow: 0 1px 3px  rgba(0,0,0,.75);
+}
+
+.header-nav li{
+	display: inline-block;
+	min-width: 100px;
+	letter-spacing: 0;
+	background: #888;
+}
+.header-nav li:nth-child(2){
+	background: #999;
+}
+.header-nav li:nth-child(3){
+	background: #b3b3b3;
+}
+.header-nav li:nth-child(4){
+	background: #ccc;
+}
+.header-nav li.active{
+	background: #687758;
+}
+.header-nav .two li:nth-child(4){
+	background: #888;
+}
+.header-nav .two li:nth-child(3){
+	background: #999;
+}
+.header-nav .two li:nth-child(2){
+	background: #b3b3b3;
+}
+.header-nav .two li:nth-child(1){
+	background: #ccc;
+}
+.header-nav li.active{
+	background: #687758;
+}
+.header-nav li a{
+	color: #fff;
+	padding: 10px;
+	display: block;
+	text-decoration: none;
+}
+.header-nav li:hover{
+	background: #687758 !important;
+	opacity: .8;
+}
+.logo{
+	padding: 10px;
+	min-width: 120px;
+	display: inline-block;
+}
+.footer{
+	background: url(../PageImg/footer.jpg) center left #333;
+	color: #fff;
+	height: 120px;
+	padding: 30px;
+	position: relative;
+	
+}
+.footer:before{
+	content: '';
+	position: absolute;
+	border-top: 120px solid #bdc5ba; 
+	border-right: 120px solid transparent; 
+	left: 0;
+	top:0;
+}
+.footer:after{
+	content: '';
+	position: absolute;
+	border-top: 120px solid #bdc5ba; 
+	border-left: 120px solid transparent; 
+	right: 0;
+	top:0;
+}
+.container{
+	width: 1100px;
+}
+.index-list{
+	
+	line-height: 20px;
+	margin: 0;
+}
+.index-list .col-sm-4{
+	padding: 0;
+}
+.index-list a {
+	color: #888;
+}
+.index-list .index-box{
+	background: #fff;
+}
+.index-list .cover{
+	background-size: cover;
+	background-position:center center;
+	width: 100%;
+	height: 250px;  
+}
+.index-list .content{
+	padding: 10px 20px;
+}
+.index-list  .enter-content{
+	height: 140px;
+	overflow: hidden;
+}
+.index-list .title{
+	font-size: 18px;
+	font-weight: bold;
+	padding: 10px 0;
+}
+.index-list .more{
+	padding: 20px 0 10px;
+	text-align: right;
+	font-style: italic;
+}
+.index-product-list{
+	padding-bottom: 17px;
+    height: 140px
+}
+.index-product-list a{
+	display: block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+	text-decoration: none;
+	color: #333;
+}
+.index-product-list a:hover{
+	color: #687758;
+}
+.page-content{
+	border-top:5px solid #687758;
+	border-bottom:5px solid #687758;
+	padding: 30px;
+	background: rgba(255,255,255,.6);
+}
+.page-content .title{
+	text-align: center;
+	margin: 0 0 20px;
+	font-weight: bold;
+}
+.news-box{
+	background: #fff;
+	padding: 10px;
+	display: block;
+	border-radius: 4px;
+	box-shadow: 1px 1px 2px rgba(0,0,0,.75) ;
+	overflow: auto;
+	margin-bottom: 20px;
+	line-height: 20px;
+	text-decoration: none !important;
+}
+.news-box:hover{
+}
+.news-box .cover{
+	float: left;
+	margin-right: 10px;
+	width: 120px;
+	height: 100px;
+	background-size:cover ;
+	background-position:center ;
+	border-radius: 4px;
+}
+.news-box .content{
+	overflow: auto;
+}
+.news-box .title{
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 15px;
+	margin-bottom: 10px;
+	color: #333;
+}
+.news-box .detail{
+	color: #888;
+	height: 40px;
+	margin-bottom: 10px;
+}
+.news-box .more{
+	color: #333;
+	font-style:italic;
+	text-align: right;
+}
+.product-show-box{
+	box-shadow: 0px 0px 4px rgba(0,0,0,.75);
+	height: 160px;
+	width: 100%;
+	display: block;
+	margin-bottom: 20px;
+	background-size:cover ;
+	background-position: center;
+}
+.product-center-box{
+	background: #fff;
+	padding: 10px;
+	display: block;
+	border-radius: 4px;
+	overflow: auto;
+	margin-bottom: 20px;
+	line-height: 20px;
+	text-decoration: none !important;
+	color: #2f890e;
+}
+.product-center-box .cover{
+	background-size:cover ;
+	background-position: center;
+	height: 180px;
+	position: relative;
+	margin-bottom: 10px;
+}
+.product-center-box .sort{
+	position: absolute;
+	right: 0;
+	bottom: 20px;
+	background: rgba(104,119,88,.8);
+	color: #fff;
+	padding: 5px 15px;
+}
+.product-center-box .version{
+	position: absolute;
+	right: 0;
+	bottom: 60px;
+	background: rgba(104,119,88,.6);
+	color: #fff;
+	padding: 5px 15px;
+}
+.product-center-box .title{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.btn-main{
+	background: #687758;
+	color: #fff;
+}
+.btn-main:hover,.btn-main:focus{
+	opacity: .8;
+	color: #fff;
+}
+@media only screen and (max-width:767px ) {
+	body,html{
+		min-width: inherit;
+		background: #d3dbce;
+	}
+	.index-bg{
+		background: none;
+	}
+	body{
+		padding-top: 50px;
+	}
+	.container{
+		width: 100%;
+	}
+	.footer:before,.footer:after{
+		border: none;
+		left: initial;
+		top: initial;
+		right: initial;
+	}
+	.footer{
+		height: initial;
+		text-align: center;
+	}
+	.footer .text-right{
+		text-align: center;
+	}
+	.push{
+		height: 0;
+	}
+	.wrapper{
+		height: initial;
+		min-height: initial;
+		margin-bottom: 30px;
+		background: none;
+	}
+	.index-list .col-sm-4{
+		margin-bottom: 15px;
+	}
+	.navbar-inverse{
+		background: #687758;
+		color: #fff;
+	}
+	.navbar-inverse .navbar-brand{
+		color: #f2f2f2;
+	}
+	.navbar-inverse .navbar-toggle{
+		background: #fff;
+		color: #687758;
+	}
+	.navbar-inverse .navbar-toggle .icon-bar{
+		background: #687758;
+	}
+	.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{
+		background-color:#687758
+	}
+	.navbar-inverse .navbar-toggle:hover .icon-bar, .navbar-inverse .navbar-toggle:focus .icon-bar{
+		background-color:#fff
+	}
+	.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus{
+		background: none;
+		color: #fff;
+	}
+	.page-content{
+		padding: 10px;
+	}
+}

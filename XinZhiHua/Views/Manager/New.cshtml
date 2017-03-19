@@ -1,8 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_Manager_Layout.cshtml";
 
-    string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
-
     List<NewAndProduct> data = new List<NewAndProduct>();
     if (!string.IsNullOrEmpty(ViewBag.Data))
     {

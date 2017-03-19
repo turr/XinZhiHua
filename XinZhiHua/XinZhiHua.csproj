@@ -147,6 +147,7 @@
     <Content Include="Content\Css\manager-common.css" />
     <Content Include="Content\Css\manager-logon.css" />
     <Content Include="Content\Js\common.js" />
+    <Content Include="Content\Css\home-index.css" />
     <Content Include="Content\Js\manager-product-edit.js" />
     <Content Include="Content\Js\manager-show-edit.js" />
     <Content Include="Content\Js\manager-new-edit.js" />
@@ -435,6 +436,12 @@
     <Content Include="Content\Lib\webuploader-0.1.5\Uploader.swf" />
     <Content Include="Content\Lib\webuploader-0.1.5\webuploader.css" />
     <Content Include="Content\Lib\webuploader-0.1.5\webuploader.js" />
+    <Content Include="Content\PageImg\banner1.jpg" />
+    <Content Include="Content\PageImg\bg.jpg" />
+    <Content Include="Content\PageImg\border.png" />
+    <Content Include="Content\PageImg\footer.jpg" />
+    <Content Include="Content\PageImg\index-bg.jpg" />
+    <Content Include="Content\PageImg\logo.png" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -456,6 +463,7 @@
     <Compile Include="Content\Lib\ueditor1_4_3_3-utf8-net\net\App_Code\NotSupportedHandler.cs" />
     <Compile Include="Content\Lib\ueditor1_4_3_3-utf8-net\net\App_Code\PathFormater.cs" />
     <Compile Include="Content\Lib\ueditor1_4_3_3-utf8-net\net\App_Code\UploadHandler.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="DAL\BaseRepository.cs" />
@@ -505,6 +513,18 @@
     <Content Include="Views\Manager\NewEdit.cshtml" />
     <Content Include="Views\Manager\ProductEdit.cshtml" />
     <Content Include="Views\Manager\ShowEdit.cshtml" />
+    <Content Include="Views\Shared\_Menu_Layout.cshtml" />
+    <Content Include="Views\Shared\_Menu_Layout_index.cshtml" />
+    <Content Include="Views\Home\Introduction.cshtml" />
+    <Content Include="Views\Home\Statement.cshtml" />
+    <Content Include="Views\Home\Honor.cshtml" />
+    <Content Include="Views\Home\New.cshtml" />
+    <Content Include="Views\Home\Product.cshtml" />
+    <Content Include="Views\Home\Show.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\NewDetail.cshtml" />
+    <Content Include="Views\Home\ProductDetail.cshtml" />
+    <Content Include="Views\Home\ShowDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -514,6 +534,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Img\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

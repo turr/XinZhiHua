@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/Views/Shared/_Menu_Layout.cshtml";
+
+    NewAndProduct data = null;
+    if (!string.IsNullOrEmpty(ViewBag.Data))
+    {
+        data = Newtonsoft.Json.JsonConvert.DeserializeObject<NewAndProduct>(ViewBag.Data);
+    }
+
+    string title = "";
+    string content = "";
+    if (data != null)
+    {
+        title = string.IsNullOrEmpty(data.Title) ? "" : data.Title;
+        content = string.IsNullOrEmpty(data.Content) ? "" : System.Web.HttpUtility.HtmlDecode(data.Content);
+    }
+}
+
+
+<div class="container">
+    <div class="page-content">
+        <h4 class="title">@title</h4>
+        <div class="enter-content">
+            @Html.Raw(@content)
+        </div>
+    </div>
+    <br />
+    <div class="text-center">
+        <a href="javascript:history.go(-1);" class="btn btn-main">　返回　</a>
+    </div>
+</div>

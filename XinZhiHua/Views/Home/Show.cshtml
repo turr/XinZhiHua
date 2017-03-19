@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "~/Views/Shared/_Menu_Layout.cshtml";
+
+    List<NewAndProduct> data = new List<NewAndProduct>();
+    if (!string.IsNullOrEmpty(ViewBag.Data))
+    {
+        data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<NewAndProduct>>(ViewBag.Data);
+    }
+}
+<div class="container">
+    <div class="product-show-list">
+        <div class="row">
+            @foreach (NewAndProduct temp in data)
+            {
+                string img = string.IsNullOrEmpty(temp.Img) ? "" : Url.Content(temp.Img);
+
+                <div class="col-sm-4">
+                    <a href="@Url.Content("~/Home/ShowDetail?id="+temp.Id)" class="product-show-box" style="background-image:url(@img) ;">
+                    </a>
+                </div>
+            }
+         </div>
+    </div><!-- news-list -->
+    <div class="text-center">
+        <ul class="pagination">
+            <li>
+                <a href="@Url.Content("~/Home/Show?page=1")" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;第一页</span>
+                </a>
+            </li>
+
+            @{
+                for (int i = 1; i <= ViewBag.AllPage; i++)
+                {
+                    string active = i == ViewBag.NowPage ? "active" : "";
+                    if (i >= ViewBag.NowPage - 3 && i <= ViewBag.NowPage + 3)
+                    {
+                        <li class="@active"><a href="@Url.Content("~/Home/Show?page="+ i)">@i</a></li>
+                    }
+                }
+            }
+            <li>
+                <a href="@Url.Content("~/Home/Show?page="+ ViewBag.AllPage)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;最后一页</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>

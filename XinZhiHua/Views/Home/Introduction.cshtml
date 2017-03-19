@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "~/Views/Shared/_Menu_Layout.cshtml";
+
+    Setting data = ViewBag.Data == null ? null : Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(ViewBag.Data);
+    string content = "";
+    if (data != null)
+    {
+        content = data.Content == null ? "" : System.Web.HttpUtility.HtmlDecode(data.Content);
+    }
+}
+
+
+<div class="container">
+    <div class="page-content">
+        @Html.Raw(@content)
+    </div>
+    <br />
+</div>
