@@ -147,6 +147,8 @@
     <Content Include="Content\Css\manager-common.css" />
     <Content Include="Content\Css\manager-logon.css" />
     <Content Include="Content\Js\common.js" />
+    <Content Include="Content\Js\manager-product-edit.js" />
+    <Content Include="Content\Js\manager-show-edit.js" />
     <Content Include="Content\Js\manager-new-edit.js" />
     <Content Include="Content\Js\manager-ueditor.js" />
     <Content Include="Content\Js\manager-index.js" />

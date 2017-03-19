@@ -280,35 +280,178 @@ namespace XinZhiHua.Controllers
 
         #region  产品中心
         [Authorize]
-        public ActionResult Product()
+        public ActionResult Product(int page = 1)
         {
+            string action_name = RouteData.Values["action"].ToString().ToLower();
+
             ViewBag.Title = "后台管理(产品中心)";
+
+            double page_size = 10;
+
+            INewAndProductService service = new NewAndProductService();
+            List<NewAndProduct> data = service.Table().Where(M => M.Type.IndexOf(action_name) != -1).ToList();
+            ViewBag.AllCount = data.Count();
+
+            double all_page = Math.Ceiling(data.Count() / page_size);
+            ViewBag.AllPage = all_page;
+
+            if (page < 1)
+            {
+                page = 1;
+            }
+            else if (page > all_page)
+            {
+                page = (int)all_page;
+            }
+            ViewBag.NowPage = page;
+
+            List<NewAndProduct> p_data = data.Skip((int)page_size * (page - 1)).Take((int)page_size).OrderBy(M => M.AddTime).ToList();
+            string page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(p_data);
+            ViewBag.Data = page_data;
             return View();
         }
 
         [Authorize]
-        public ActionResult ProductEdit()
+        public ActionResult ProductEdit(int id = 0)
         {
-            ViewBag.Title = "后台管理(产品中心)";
+            ViewBag.Title = "后台管理(产品中心|添加/修改)";
+            string page_data = "";
+            try
+            {
+                INewAndProductService service = new NewAndProductService();
+                NewAndProduct data = service.Table().Where(M => M.Id == id).FirstOrDefault();
+                page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            }
+            catch
+            {
+            }
+            ViewBag.Data = page_data;
             return View();
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ProductEditPost()
+        {
+            int result = 0;
+
+            int id = 0;
+            if (Request.Form["id"] != null)
+            {
+                int.TryParse(Request.Form["id"].ToString(), out id);
+            }
+            var json_obj = new
+            {
+                id = id,
+                title = Request.Form["title"] == null ? "" : Request.Form["title"],
+                content = Request.Form["content"] == null ? "" : Request.Form["content"],
+                img = "",
+                add_time = DateTime.Now,
+                product_no = Request.Form["product_no"] == null ? "" : Request.Form["product_no"],
+                product_type = Request.Form["product_type"] == null ? "" : Request.Form["product_type"],
+                detail = Request.Form["detail"] == null ? "" : Request.Form["detail"],
+                type = Request.Form["type"] == null ? "" : Request.Form["type"]
+            };
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(json_obj);
+            result = SaveData(json);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult ProductDelete(int id = 0)
+        {
+            DeleteData(id);
+            return RedirectToAction("Product", "Manager");
+        }
+
 
         #endregion
 
         #region  产品展示
 
         [Authorize]
-        public ActionResult Show()
+        public ActionResult Show(int page = 1)
         {
-            ViewBag.Title = "后台管理(产品展示)";
+            string action_name = RouteData.Values["action"].ToString().ToLower();
+
+            ViewBag.Title = "后台管理((产品展示)";
+
+            double page_size = 10;
+
+            INewAndProductService service = new NewAndProductService();
+            List<NewAndProduct> data = service.Table().Where(M => M.Type.IndexOf(action_name) != -1).ToList();
+            ViewBag.AllCount = data.Count();
+
+            double all_page = Math.Ceiling(data.Count() / page_size);
+            ViewBag.AllPage = all_page;
+
+            if (page < 1)
+            {
+                page = 1;
+            }
+            else if (page > all_page)
+            {
+                page = (int)all_page;
+            }
+            ViewBag.NowPage = page;
+
+            List<NewAndProduct> p_data = data.Skip((int)page_size * (page - 1)).Take((int)page_size).OrderBy(M => M.AddTime).ToList();
+            string page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(p_data);
+            ViewBag.Data = page_data;
             return View();
         }
 
         [Authorize]
-        public ActionResult ShowEdit()
+        public ActionResult ShowEdit(int id = 0)
         {
-            ViewBag.Title = "后台管理(产品展示)";
+            ViewBag.Title = "后台管理(产品展示|添加/修改)";
+            string page_data = "";
+            try
+            {
+                INewAndProductService service = new NewAndProductService();
+                NewAndProduct data = service.Table().Where(M => M.Id == id).FirstOrDefault();
+                page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            }
+            catch
+            {
+            }
+            ViewBag.Data = page_data;
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ShowEditPost()
+        {
+            int result = 0;
+
+            int id = 0;
+            if (Request.Form["id"] != null)
+            {
+                int.TryParse(Request.Form["id"].ToString(), out id);
+            }
+            var json_obj = new
+            {
+                id = id,
+                title = Request.Form["title"] == null ? "" : Request.Form["title"],
+                content = Request.Form["content"] == null ? "" : Request.Form["content"],
+                img = "",
+                add_time = DateTime.Now,
+                product_no = "",
+                product_type = "",
+                detail = Request.Form["detail"] == null ? "" : Request.Form["detail"],
+                type = Request.Form["type"] == null ? "" : Request.Form["type"]
+            };
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(json_obj);
+            result = SaveData(json);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult  ShowDelete(int id = 0)
+        {
+            DeleteData(id);
+            return RedirectToAction("Show", "Manager");
         }
 
         #endregion
@@ -366,6 +509,13 @@ namespace XinZhiHua.Controllers
                         if (from != null &&  from.ToString().ToLower() == "new")
                         {
                             path += "New/";
+                        }else if (from != null && from.ToString().ToLower() == "show")
+                        {
+                            path += "Show/";
+                        }
+                        else if (from != null && from.ToString().ToLower() == "product")
+                        {
+                            path += "Product/";
                         }
                         if (Directory.Exists(Request.MapPath(path)) == false)//如果不存在就创建file文件夹
                         {
@@ -374,7 +524,7 @@ namespace XinZhiHua.Controllers
                         var file = Path.Combine(Request.MapPath(path), Path.GetFileName(file_name));
                         f.SaveAs(file);
 
-                        if (from == "new")
+                        if (from == "new" || from == "show" || from == "product")
                         {
                             int data_id = 0;
                             if(Request.QueryString["dataId"] != null)
