@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -194,12 +195,14 @@ namespace XinZhiHua.Controllers
         [Authorize]
         public ActionResult New(int page = 1)
         {
+            string action_name = RouteData.Values["action"].ToString().ToLower();
+
             ViewBag.Title = "后台管理(新闻动态)";
 
-            double page_size = 5;
+            double page_size = 10;
 
-            INewService service = new NewService();
-            List<New> data = service.Table().ToList();
+            INewAndProductService service = new NewAndProductService();
+            List<NewAndProduct> data = service.Table().Where(M=>M.Type.IndexOf(action_name) != -1).ToList();
             ViewBag.AllCount = data.Count();
 
             double all_page = Math.Ceiling(data.Count() / page_size);
@@ -208,15 +211,14 @@ namespace XinZhiHua.Controllers
             if (page < 1)
             {
                 page = 1;
-            }else if (page > all_page)
+            }
+            else if (page > all_page)
             {
                 page =(int) all_page;
             }
             ViewBag.NowPage = page;
 
-
-
-            List<New> p_data = data.Skip((int)page_size * (page - 1)).Take((int)page_size).ToList();
+            List<NewAndProduct> p_data = data.Skip((int)page_size * (page - 1)).Take((int)page_size).OrderBy(M=>M.AddTime).ToList();
             string page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(p_data);
             ViewBag.Data = page_data;
             return View();
@@ -229,8 +231,8 @@ namespace XinZhiHua.Controllers
             string page_data = "";
             try
             {
-                INewService service = new NewService();
-                New data = service.Table().Where(M => M.Id == id).FirstOrDefault();
+                INewAndProductService service = new NewAndProductService();
+                NewAndProduct data = service.Table().Where(M => M.Id == id).FirstOrDefault();
                 page_data = data == null ? "" : Newtonsoft.Json.JsonConvert.SerializeObject(data);
             }
             catch
@@ -251,60 +253,32 @@ namespace XinZhiHua.Controllers
             {
                 int.TryParse(Request.Form["id"].ToString(),out id);
             }
-            string title = Request.Form["title"] == null ? "" : Request.Form["title"];
-            string detail = Request.Form["detail"] == null ? "" : Request.Form["detail"];
-            string content = Request.Form["content"] == null ? "" : Request.Form["content"];
-
-            try
-            {
-                INewService service = new NewService();
-                New data = service.Table().Where(M=>M.Id == id).FirstOrDefault();
-                if (data == null )
-                {
-                    data = new New();
-                    data.Title = title;
-                    data.Detail = detail;
-                    data.Content = content;
-                    data.AddTime = DateTime.Now;
-                    data.Img = "";
-                    if (!string.IsNullOrEmpty(data.Title))
-                    {
-                        service.Insert(data);
-                        result = data.Id;
-                    }
-                }
-                else
-                {
-                    data.Title = title;
-                    data.Detail = detail;
-                    data.Content = content;
-                    service.Update(data);
-                    result = data.Id;
-                }
-            }
-            catch
-            {
-
-            }
+            var json_obj =  new  {
+                id = id,
+                title = Request.Form["title"] == null ? "" : Request.Form["title"],
+                content = Request.Form["content"] == null ? "" : Request.Form["content"],
+                img = "",
+                add_time = DateTime.Now,
+                product_no = "",
+                product_type = "",
+                detail = Request.Form["detail"] == null ? "" : Request.Form["detail"],
+                type = Request.Form["type"] == null ? "" : Request.Form["type"]
+            };
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(json_obj);
+            result = SaveData(json);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
         public ActionResult NewDelete(int id = 0)
         {
-            try
-            {
-                INewService service = new NewService();
-                service.Delete(id);
-            }
-            catch
-            {
-            }
+            DeleteData(id);
             return RedirectToAction("New", "Manager");
         }
 
         #endregion
 
+        #region  产品中心
         [Authorize]
         public ActionResult Product()
         {
@@ -319,6 +293,10 @@ namespace XinZhiHua.Controllers
             return View();
         }
 
+        #endregion
+
+        #region  产品展示
+
         [Authorize]
         public ActionResult Show()
         {
@@ -332,6 +310,8 @@ namespace XinZhiHua.Controllers
             ViewBag.Title = "后台管理(产品展示)";
             return View();
         }
+
+        #endregion
 
         #region 联系我们
         [Authorize]
@@ -401,8 +381,8 @@ namespace XinZhiHua.Controllers
                             {
                                 int.TryParse(Request.QueryString["dataId"].ToString(),out data_id);
                             }
-                            INewService service = new NewService();
-                            New new_data =  service.GetByID(data_id);
+                            INewAndProductService service = new NewAndProductService();
+                            NewAndProduct new_data =  service.GetByID(data_id);
                             if(new_data != null)
                             {
                                 new_data.Img = path + file_name;
@@ -480,5 +460,63 @@ namespace XinZhiHua.Controllers
             }
             return false;
         }
+
+        private int SaveData(string json_data)
+        {
+            int result = 0;
+
+            var json_obj = (JObject) Newtonsoft.Json.JsonConvert.DeserializeObject(json_data);
+            int id = int.Parse(json_obj["id"].ToString());
+            try
+            {
+                INewAndProductService service = new NewAndProductService();
+                NewAndProduct data = service.Table().Where(M => M.Id == id).FirstOrDefault();
+                if (data == null)
+                {
+                    data = new NewAndProduct();
+                    data.Title = json_obj["title"].ToString();
+                    data.Content = json_obj["content"].ToString();
+                    data.Detail = json_obj["detail"].ToString();
+                    data.Img = json_obj["img"].ToString();
+                    data.AddTime = DateTime.Parse(json_obj["add_time"].ToString());
+                    data.ProductNo = json_obj["product_no"].ToString();
+                    data.ProductType = json_obj["product_type"].ToString();
+                    data.Type = json_obj["type"].ToString();
+                    if (!string.IsNullOrEmpty(data.Title))
+                    {
+                        service.Insert(data);
+                        result = data.Id;
+                    }
+                }
+                else
+                {
+                    data.Title = json_obj["title"].ToString();
+                    data.Content = json_obj["content"].ToString();
+                    data.Detail = json_obj["detail"].ToString();
+                    data.ProductNo = json_obj["product_no"].ToString();
+                    data.ProductType = json_obj["product_type"].ToString();
+                    service.Update(data);
+                    result = data.Id;
+                }
+            }
+            catch
+            {
+
+            }
+            return result;
+        }
+
+        private void DeleteData(int id)
+        {
+            try
+            {
+                INewAndProductService service = new NewAndProductService();
+                service.Delete(id);
+            }
+            catch
+            {
+            }
+        }
+
     }
 }

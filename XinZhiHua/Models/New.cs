@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-public class New
+public class NewAndProduct
 {
     public int Id { get; set; }
 
@@ -17,4 +17,9 @@ public class New
 
     public DateTime AddTime { get; set; }
 
+    public string ProductNo { get; set; }
+
+    public string ProductType { get; set; }
+
+    public string Type { get; set; }
 }

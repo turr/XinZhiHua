@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-public class NewService : BaseService<New>, INewService
+public interface INewAndProductService : IBaseService<NewAndProduct>
 {
 }

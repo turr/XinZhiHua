@@ -440,10 +440,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BLL\BaseService.cs" />
     <Compile Include="BLL\IBaseService.cs" />
-    <Compile Include="BLL\InterfaceService\INewService.cs" />
+    <Compile Include="BLL\InterfaceService\INewAndProductService.cs" />
     <Compile Include="BLL\InterfaceService\ISettingService.cs" />
     <Compile Include="BLL\InterfaceService\IManagerService.cs" />
-    <Compile Include="BLL\Service\NewService.cs" />
+    <Compile Include="BLL\Service\NewAndProductService.cs" />
     <Compile Include="BLL\Service\SettingService.cs" />
     <Compile Include="BLL\Service\ManagerService.cs" />
     <Compile Include="Content\Lib\ueditor1_4_3_3-utf8-net\net\App_Code\Config.cs" />

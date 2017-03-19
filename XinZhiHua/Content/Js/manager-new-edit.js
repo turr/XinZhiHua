@@ -103,6 +103,7 @@
         var title = box.find("input[name='title']").val();
         var detail = box.find("textarea[name='detail']").val();
         var content = c.HtmlEncode(UE.getEditor('myEditor').getContent());
+        var type = box.find("input[name='type']").val();
 
         $.ajax({
             cache: false,
@@ -113,7 +114,8 @@
                 id: id,
                 title: title,
                 detail: detail,
-                content: content
+                content: content,
+                type: type
             },
             dataType: "json",
             success: function (json) {

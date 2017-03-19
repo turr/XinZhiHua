@@ -2,10 +2,10 @@
     Layout = "~/Views/Shared/_Manager_Layout.cshtml";
     string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
 
-    New data = null;
+    NewAndProduct data = null;
     if (!string.IsNullOrEmpty(ViewBag.Data))
     {
-        data = Newtonsoft.Json.JsonConvert.DeserializeObject<New>(ViewBag.Data);
+        data = Newtonsoft.Json.JsonConvert.DeserializeObject<NewAndProduct>(ViewBag.Data);
     }
 
     string id = "";

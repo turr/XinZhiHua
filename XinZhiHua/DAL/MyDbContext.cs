@@ -14,7 +14,7 @@ public class MyDbContext : DbContext
 
     public DbSet<Manager> manager_data { get; set; }
     public DbSet<Setting> setting_data { get; set; }
-    public DbSet<New> new_data { get; set; }
+    public DbSet<NewAndProduct> new_product_data { get; set; }
 
 
 

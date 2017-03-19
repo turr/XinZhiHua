@@ -3,12 +3,18 @@
 
     string action_name = ViewContext.RouteData.Values["action"].ToString().ToLower();
 
-    List<New> data = new List<New>();
+    List<NewAndProduct> data = new List<NewAndProduct>();
     if (!string.IsNullOrEmpty(ViewBag.Data))
     {
-        data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<New>>(ViewBag.Data);
+        data = Newtonsoft.Json.JsonConvert.DeserializeObject<List<NewAndProduct>>(ViewBag.Data);
     }
 }
+@section add_css{
+    <style>
+        table td{vertical-align:middle!important}
+    </style>
+}
+
 <div class="container">
     <h3 class="page-header">
         <a href="@Url.Content("~/Manager/NewEdit")" class="btn btn-success pull-right">　＋ 添加新闻　</a>
@@ -22,15 +28,15 @@
             <th>操作</th>
         </thead>
         @{
-            foreach (New temp in data)
+            foreach (NewAndProduct temp in data)
             {
                 string img = string.IsNullOrEmpty(temp.Img) ? "" : Url.Content(temp.Img);
                 string title = string.IsNullOrEmpty(temp.Title) ? "" : temp.Title;
                 string  addTime = temp.AddTime == null ? "" : temp.AddTime.ToString("yyyy-MM-dd HH:mm:ss");
 
                 <tr>
-                    <td>
-                        <img src="@img" style="max-width:200px">
+                    <td style="text-align:center">
+                        <img src="@img" style="height:80px;width:80px">
                     </td>
                     <td>@title</td>
                     <td>@addTime</td>
@@ -49,19 +55,22 @@
         <ul class="pagination">
             <li >
                 <a href="@Url.Content("~/Manager/New?page=1")" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+                    <span aria-hidden="true">&laquo;第一页</span>
                 </a>
             </li>
             @{
                 for (int i = 1; i <= ViewBag.AllPage; i++)
                 {
                     string active = i == ViewBag.NowPage ? "active" : "";
-                    <li class="@active"><a href="@Url.Content("~/Manager/New?page="+ i)">@i</a></li>
+                    if (i >= ViewBag.NowPage - 3 && i <= ViewBag.NowPage + 3)
+                    {
+                        <li class="@active"><a href="@Url.Content("~/Manager/New?page="+ i)">@i</a></li>
+                    }
                 }
             }
             <li>
                 <a href="@Url.Content("~/Manager/New?page="+ ViewBag.AllPage)" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+                    <span aria-hidden="true">&raquo;最后一页</span>
                 </a>
             </li>
         </ul>
