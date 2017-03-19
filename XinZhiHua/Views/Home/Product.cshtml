@@ -34,7 +34,9 @@
             }
         </div>
     </div>
-    <div class="text-center">
+    @if (ViewBag.AllCount != 0)
+    {
+         <div class="text-center">
         <ul class="pagination">
             <li>
                 <a href="@Url.Content("~/Home/Product?page=1")" aria-label="Previous">
@@ -59,4 +61,6 @@
             </li>
         </ul>
     </div>
+     }
+
 </div>

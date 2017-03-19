@@ -33,7 +33,9 @@
             }
         </div>
     </div><!-- news-list -->
-    <div class="text-center">
+    @if(ViewBag.AllCount != 0)
+    {
+         <div class="text-center">
         <ul class="pagination">
             <li>
                 <a href="@Url.Content("~/Home/New?page=1")" aria-label="Previous">
@@ -58,5 +60,6 @@
             </li>
         </ul>
     </div>
+    }
 
 </div>
