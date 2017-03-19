@@ -4,6 +4,7 @@
     string navigation_bar = System.Configuration.ConfigurationManager.AppSettings["navigation_bar"] == null ? "" : System.Configuration.ConfigurationManager.AppSettings["navigation_bar"].ToString().ToLower();
 }
 @section add_css{
+    <link rel=stylesheet type=text/css href="@Url.Content("~/Content/Lib/bootstrap-3.3.0-dist/bootstrap.css")" />
     <link rel=stylesheet type=text/css href="@Url.Content("~/Content/Css/home-index.css")" />
     @RenderSection("add_css", required: false)
 }

@@ -153,6 +153,7 @@
     <Content Include="Content\Js\manager-new-edit.js" />
     <Content Include="Content\Js\manager-ueditor.js" />
     <Content Include="Content\Js\manager-index.js" />
+    <Content Include="Content\Lib\bootstrap-3.3.0-dist\bootstrap.css" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap-theme.css" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap-theme.min.css" />
     <Content Include="Content\Lib\bootstrap-3.3.0-dist\css\bootstrap.css" />
