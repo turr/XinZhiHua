@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace XinZhiHua.Controllers
 {
-    public class BaseController : Controller
+    public class BaseController : Controller 
     {
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
