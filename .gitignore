@@ -1,7 +1,8 @@
 .vs
-XinZhiHua/App_Data/*.db
+XinZhiHua/App_Data
 XinZhiHua/bin
 XinZhiHua/obj
+XinZhiHua/Properties
 XinZhiHua/XinZhiHua.csproj.user
 XinZhiHua/Content/Lib/ueditor1_4_3_3-utf8-net/net/upload/*
 XinZhiHua/Content/Img/*

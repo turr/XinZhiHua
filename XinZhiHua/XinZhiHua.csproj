@@ -526,6 +526,7 @@
     <Content Include="Views\Home\NewDetail.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
     <Content Include="Views\Home\ShowDetail.cshtml" />
+    <None Include="Properties\PublishProfiles\web.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
